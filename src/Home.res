@@ -1,3 +1,4 @@
+// 어디에서 bidning을 해야 하는지? 쓰는 곳 바로 위에? vs bindings 파일에
 @scope(("window", "history")) @val
 external pushState: (Js.Dict.t<'a>, string, string) => unit = "pushState"
 
@@ -23,24 +24,9 @@ let make = () => {
     | _ => StoreOrNetwork
     },
   )
-  let (searchText, setSearchText) = React.useState(() => "")
-
-  let onSearchInputChange = event => {
-    let value = ReactEvent.Form.target(event)["value"]
-    setSearchText(_ => value)
-  }
-
-  let handleSearchSubmit = event => {
-    event->ReactEvent.Form.preventDefault
-    RescriptReactRouter.push(`/?q=${searchText}`)
-  }
 
   <>
-    <FeedsHeader
-      handleSearchSubmit={handleSearchSubmit}
-      onSearchInputChange={onSearchInputChange}
-      searchText={searchText}
-    />
+    <FeedsHeader />
     <React.Suspense fallback={<div> {"Loading..."->React.string} </div>}>
       <RescriptReactErrorBoundary
         fallback={_err => <div> {"An error occurred"->React.string} </div>}>

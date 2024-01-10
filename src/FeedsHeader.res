@@ -1,5 +1,17 @@
 @react.component
-let make = (~searchText, ~handleSearchSubmit, ~onSearchInputChange) => {
+let make = () => {
+  let (searchText, setSearchText) = React.useState(() => "")
+
+  let onSearchInputChange = event => {
+    let value = ReactEvent.Form.target(event)["value"]
+    setSearchText(_ => value)
+  }
+
+  let handleSearchSubmit = event => {
+    event->ReactEvent.Form.preventDefault
+    RescriptReactRouter.push(`/?q=${searchText}`)
+  }
+
   <header className={`flex justify-center my-4`}>
     <form onSubmit={handleSearchSubmit}>
       <div className="border border-gray-300 rounded-md p-2 flex justify-between items-center w-96">
