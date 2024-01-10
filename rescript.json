@@ -1,0 +1,26 @@
+{
+  "name": "your-project-name",
+  "sources": [
+    {
+      "dir": "src",
+      "subdirs": true
+    }
+  ],
+  "package-specs": [
+    {
+      "module": "es6",
+      "in-source": true
+    }
+  ],
+  "suffix": ".res.js",
+  "jsx": { "version": 4, "mode": "classic" },
+  "ppx-flags": [["rescript-relay/ppx", "-uncurried"]],
+  "bs-dependencies": [
+    "@rescript/core",
+    "@rescript/react",
+    "rescript-relay",
+    "@glennsl/rescript-fetch",
+    "rescript-webapi"
+  ],
+  "bsc-flags": ["-open RescriptCore"]
+}
