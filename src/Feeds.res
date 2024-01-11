@@ -5,15 +5,12 @@ module FeedsQuery = %relay(`
 `)
 
 @react.component
-let make = (~query) => {
-  let data = FeedsQuery.use(~variables={query: query})
+let make = (~query, ~fetchKey) => {
+  let data = FeedsQuery.use(~variables={query: query}, ~fetchKey)
 
   <>
     <React.Suspense fallback={<div> {"Loading..."->React.string} </div>}>
-      <RescriptReactErrorBoundary
-        fallback={_err => <div> {"An error occurred"->React.string} </div>}>
-        <SearchResults search={data.fragmentRefs} />
-      </RescriptReactErrorBoundary>
+      <SearchResults search={data.fragmentRefs} />
     </React.Suspense>
   </>
 }
