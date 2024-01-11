@@ -15,6 +15,9 @@ module Fragment = %relay(`
         edges {
           cursor
           node {
+            ... on Repository {
+              id
+            }
             ...RepositoryFragment
           }
         }
@@ -39,8 +42,10 @@ let make = (~search) => {
     | false => "검색 결과가 없습니다."->React.string
     | true =>
       repositories
-      ->Belt.Array.mapWithIndex((index, repo) =>
-        <Repository key={index->Int.toString} isPending={isPending} repository=repo.fragmentRefs />
+      ->Belt.Array.map(repo =>
+        <Repository
+          key={repo.id->Option.getOr("")} isPending={isPending} repository=repo.fragmentRefs
+        />
       )
       ->React.array
     }}
