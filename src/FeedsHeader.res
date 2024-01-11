@@ -1,6 +1,10 @@
 @react.component
 let make = () => {
-  let (searchText, setSearchText) = React.useState(() => "")
+  let keyword =
+    QueryParams.useQueryParams()
+    ->Js.Dict.get("q")
+    ->Option.getOr("")
+  let (searchText, setSearchText) = React.useState(() => keyword)
 
   let onSearchInputChange = event => {
     let value = ReactEvent.Form.target(event)["value"]
