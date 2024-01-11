@@ -1,9 +1,6 @@
 @react.component
 let make = () => {
-  let keyword =
-    QueryParams.useQueryParams()
-    ->Js.Dict.get("q")
-    ->Option.getOr("")
+  let keyword = QueryParams.useQueryParams()->Js.Dict.get("q")
   let (searchText, setSearchText) = React.useState(() => keyword)
 
   let onSearchInputChange = event => {
@@ -13,7 +10,10 @@ let make = () => {
 
   let handleSearchSubmit = event => {
     event->ReactEvent.Form.preventDefault
-    RescriptReactRouter.push(`/?q=${searchText}`)
+    switch searchText {
+    | Some(value) => RescriptReactRouter.push(`/?q=${value}`)
+    | None => ()
+    }
   }
 
   <header className={`flex justify-center my-4`}>
@@ -22,7 +22,7 @@ let make = () => {
         <input
           placeholder="저장소를 검색하세요"
           onChange={onSearchInputChange}
-          value={searchText}
+          value={searchText->Option.getOr("")}
         />
         <button> {"검색"->React.string} </button>
       </div>
